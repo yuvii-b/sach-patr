@@ -1,1 +1,0 @@
-# CrediBull - Academia Authenticator
