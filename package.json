@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/yuvii-b/sih-project/issues"
   },
-  "homepage": "https://github.com/yuvii-b/sih-project#readme"
+  "homepage": "https://github.com/yuvii-b/sih-project#readme",
+  "dependencies": {
+    "express": "^5.1.0"
+  }
 }
