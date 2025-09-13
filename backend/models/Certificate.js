@@ -1,26 +1,29 @@
-const pool = require("../config/db");
+const mongoose=require('mongoose');
+const Schema=mongoose.Schema;
 
-var Certificate
-async function createCertificate(){
-  const query=`CREATE TABLE certificates (
-  id SERIAL PRIMARY KEY,
-  name VARCHAR(255) NOT NULL,
-  institute VARCHAR(255) NOT NULL,
-  course VARCHAR(255) NOT NULL,
-  created_at TIMESTAMP DEFAULT NOW()
-)`
+certificateSchema=new Schema({
+    name:{
+        type:String,
+        max:100,
+        min:1
+    },
+    course:{
+        type:String,
+        max:100,
+        min:1
+    },
+    institute:{
+        type:String,
+        max:200,
+        min:1
+    },
+    certificateId:{
+        type:String,
+    },
+    issueDate:{
+        type:Date
+    }
+});
 
- Certificate=await pool.query(query);
-}
-
-try{
-    createCertificate();
-}catch(e){
-    throw new
-}
-
-
-
-
-
-module.exports = Certificate;
+const certificateModel=mongoose.model('certificate',certificateSchema);
+module.exports=certificateModel;

@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/yuvii-b/sih-project#readme",
   "dependencies": {
-    "express": "^5.1.0"
+    "express": "^5.1.0",
+    "mongoose": "^8.18.1"
   }
 }

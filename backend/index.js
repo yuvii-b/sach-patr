@@ -1,17 +1,45 @@
 const express=require('express');
+const mongoose=require('mongoose');
 const errorHandler=require('./utilities/errorHandler');
 const expressError=require('./utilities/customError');
+const certificateModel=require('./models/certificate');
+
+mongoose.connect('mongodb://localhost:27017/CrediBull', {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+})
+.then(() => {
+  console.log("MongoDB connection successful!");
+})
+.catch((err) => {
+  console.error(" MongoDB connection error:", err);
+});
+
 const app=express();
 
 app.get('/',(req,res)=>{
     res.send('home');
 })
 
-app.get('/test',errorHandler((req,res)=>{
-    /*const input={name:"kaushal",course:"be cse",institute:"MIT chennai"};
-    const a=10/0;
-    res.send(a);*/
-    throw new expressError('something went wrong',300);
+//route to check if the ocr details are present in the database
+app.get('/test',errorHandler(async(req,res)=>{
+    //mock data expected to recieve from OCR
+    const input={name:"meera iyer",course:"ma english literature",institute:"madras institute of techonology"};
+    const output=await certificateModel.find(input);
+    if(output.length!==0){
+        res.json({
+            success:'yes',
+            output:output
+        })
+    }
+    else{
+        res.json({
+            success:'no',
+            output:null
+        })
+    }
+    
+    
 }))
  
 //to catch all the other routes
