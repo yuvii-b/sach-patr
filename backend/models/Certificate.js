@@ -19,11 +19,12 @@ certificateSchema=new Schema({
     },
     certificateId:{
         type:String,
+        unique:true
     },
     issueDate:{
         type:Date
     }
 });
 
-const certificateModel=mongoose.model('certificate',certificateSchema);
+const certificateModel=mongoose.model('Certificate',certificateSchema);
 module.exports=certificateModel;

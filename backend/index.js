@@ -38,8 +38,59 @@ app.get('/test',errorHandler(async(req,res)=>{
             output:null
         })
     }
-    
-    
+}))
+
+app.get('/institute/upload',errorHandler(async (req,res)=>{
+    //mock data expected from OCR
+    const input =[{
+    name: "aarav sharma",
+    course: "btech computer science",
+    issueDate: new Date("2023-07-15"),
+    certificateId: "cert20230001",
+    institute: "indian institute of technology delhi"
+  },
+  {
+    name: "isha patel",
+    course: "mba finance",
+    issueDate: new Date("2022-11-20"),
+    certificateId: "cert20220002",
+    institute: "indian institute of management ahmedabad"
+  },
+  {
+    name: "rohan verma",
+    course: "msc data science",
+    issueDate: new Date("2023-01-10"),
+    certificateId: "cert20230003",
+    institute: "indian statistical institute kolkata"
+  },
+  {
+    name: "priya nair",
+    course: "bcom accounting",
+    issueDate: new Date("2021-08-05"),
+    certificateId: "cert20210004",
+    institute: "st xaviers college mumbai"
+  }]
+
+  const insertedDocs=await certificateModel.insertMany(input,{ordered:false});
+  if(insertedDocs.length==input.length){
+    res.json({
+        success:'yes',
+        insertedCount:insertedDocs.length,
+        insertedData:insertedDocs
+    })
+  }else{
+    res.json({
+        success:'no',
+        insertedCount:insertedDocs.length,
+        insertedData:insertedDocs
+    })
+  }
+}))
+
+//to check the contents of the database 
+app.get('/display',errorHandler(async(req,res)=>{
+    const data=await certificateModel.find({});
+    res.json(data);
 }))
  
 //to catch all the other routes
