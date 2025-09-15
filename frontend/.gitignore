@@ -53,6 +53,8 @@ gulpfile.tmp.*
 # Assets
 # **/static/vendor
 
+scss/
+
 # HTML files
 /html-starter
 /html-demo
