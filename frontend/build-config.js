@@ -22,7 +22,7 @@ module.exports = {
     buildTemplatePath: 'html',
 
     // Folder for production build
-    buildPath: './build'
+    buildPath: './public'
   },
   development: {
     // Build path can be both relative or absolute.
