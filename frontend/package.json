@@ -28,7 +28,8 @@
     "freebies"
   ],
   "scripts": {
-    "build": "npx gulp build",
+    "dev": "gulp serve",
+    "build": "gulp build --production",
     "build:js": "npx gulp build:js",
     "build:css": "npx gulp build:css",
     "build:fonts": "npx gulp build:fonts",

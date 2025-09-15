@@ -2,12 +2,12 @@
   "version": 2,
   "builds": [
     {
-      "src": "frontend/gulpfile.js",
-      "use": "@vercel/node"
+      "src": "frontend/package.json",
+      "use": "@vercel/static-build",
+      "config": { "distDir": "frontend/public" }
     }
   ],
   "routes": [
-    { "src": "/(.*)", "dest": "/html/$1" }
-  ],
-  "outputDirectory": "frontend/dist"
+    { "src": "/(.*)", "dest": "/index.html" }
+  ]
 }
