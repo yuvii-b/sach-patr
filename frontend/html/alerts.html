@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Alerts | Fake Degree Recognition System</title>
+  <link rel="stylesheet" href="assets/vendor/css/core.css" />
+  <link rel="stylesheet" href="assets/vendor/css/theme-default.css" />
+  <link rel="stylesheet" href="../assets/vendor/css/core.css" />
+    <link rel="stylesheet" href="../assets/vendor/css/theme-default.css" />
+    <script src="../assets/vendor/libs/jquery/jquery.js"></script>
+    <script src="../assets/vendor/libs/apex-charts/apexcharts.js"></script>
+    <script src="../assets/vendor/js/bootstrap.js"></script>
+    <script src="../assets/vendor/js/menu.js"></script>
+    <script src="../assets/js/main.js"></script>
+
+</head>
+<body>
+  <div class="layout-wrapper layout-content-navbar">
+    <div class="layout-container">
+
+      <div id="sidebar-placeholder"></div>
+
+      <div class="layout-page">
+
+        <nav class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached bg-navbar-theme">
+          <div class="navbar-nav-right d-flex align-items-center">
+            <h4>System Alerts</h4>
+          </div>
+        </nav>
+
+        <div class="content-wrapper">
+          <div class="container-xxl flex-grow-1 container-p-y">
+
+            <div class="card mb-4">
+              <h5 class="card-header">Notification Preferences</h5>
+              <div class="card-body">
+                <div class="form-check form-switch mb-2">
+                  <input class="form-check-input" type="checkbox" id="emailNotifications" checked />
+                  <label class="form-check-label" for="emailNotifications">Enable Email Notifications</label>
+                </div>
+                <div class="form-check form-switch">
+                  <input class="form-check-input" type="checkbox" id="smsNotifications" />
+                  <label class="form-check-label" for="smsNotifications">Enable SMS Notifications</label>
+                </div>
+              </div>
+            </div>
+
+            <div class="card">
+              <h5 class="card-header">Recent Alerts</h5>
+              <div class="card-body">
+                <ul class="list-group">
+                  <li class="list-group-item list-group-item-danger">Forgery Alert: CERT20250901XYZ</li>
+                  <li class="list-group-item list-group-item-warning">Duplicate Cert: CERTABC789</li>
+                  <li class="list-group-item list-group-item-info">Institution XYZ failed to upload batch</li>
+                </ul>
+              </div>
+            </div>
+
+          </div>
+
+          <footer class="content-footer footer bg-footer-theme">
+            <div class="container-xxl d-flex justify-content-between py-2">
+              © <script>document.write(new Date().getFullYear());</script>, Government of Jharkhand
+            </div>
+          </footer>
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="layout-overlay layout-menu-toggle"></div>
+  </div>
+
+  <script src="assets/vendor/js/bootstrap.js"></script>
+</body>
+</html>
