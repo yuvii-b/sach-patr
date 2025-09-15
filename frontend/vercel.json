@@ -2,8 +2,5 @@
   "version": 2,
   "routes": [
     { "src": "/assets/(.*)", "dest": "public/assets/$1" }
-  ],
-  "build": {
-    "distDir": "public"
-  }
+  ]
 }
