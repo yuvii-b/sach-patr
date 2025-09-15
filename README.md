@@ -1,3 +1,3 @@
 # CrediBull - Academia Authenticator
 
-This is the prototype for our project
+This is the prototype for our project.
