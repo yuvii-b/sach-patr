@@ -89,6 +89,7 @@ const buildTask = conf.cleanDist
 module.exports = {
   default: buildTask,
   build: buildTask,
+  clean: cleanTask,
   'build:js': buildTasks.js,
   'build:css': buildTasks.css,
   'build:fonts': buildTasks.fonts,
