@@ -6,37 +6,42 @@ const gulpIf = require('gulp-if');
 const sourcemaps = require('gulp-sourcemaps');
 const browserSync = require('browser-sync').create();
 
-module.exports = (conf, srcGlob) => {
+module.exports = (conf) => {
 
   // ------------------------
   // Build CSS
   // ------------------------
   const buildCssTask = function () {
-    return src(srcGlob([
-      '**/*.scss',      // include all SCSS
-      '!**/_*.scss',    // exclude partials
-      '!html/**/*',
-      '!html-starter/**/*',
-      '!html-demo/**/*',
-      '!dist/**/*',
-      '!build/**/*',
-      '!assets/**/*',
-      '!tasks/**/*',
-      '!node_modules/**/*',
-      '!_temp/**/*',
-      '!node-script/**/*'
-    ]))
-    .pipe(gulpIf(conf.sourcemaps, sourcemaps.init()))
-    .pipe(
-      sass({ outputStyle: conf.minify ? 'compressed' : 'expanded' }).on('error', sass.logError)
-    )
-    .pipe(gulpIf(conf.sourcemaps, sourcemaps.write()))
-    .pipe(dest(path.join(conf.distPath, 'assets', 'css')))
-    .pipe(browserSync.stream());
+    return src([
+        '**/*.scss',         // include all SCSS
+        '!**/_*.scss',       // exclude partials
+        '!html/**/*',
+        '!html-starter/**/*',
+        '!html-demo/**/*',
+        '!dist/**/*',
+        '!build/**/*',
+        '!assets/**/*',
+        '!tasks/**/*',
+        '!node_modules/**/*',
+        '!_temp/**/*',
+        '!node-script/**/*'
+      ], { allowEmpty: true })
+      .pipe(gulpIf(conf.sourcemaps, sourcemaps.init()))
+      .pipe(
+        sass({ outputStyle: conf.minify ? 'compressed' : 'expanded' }).on('error', sass.logError)
+      )
+      .pipe(gulpIf(conf.sourcemaps, sourcemaps.write()))
+      .pipe(dest(path.join(conf.distPath, 'assets', 'css')))
+      .pipe(browserSync.stream());
   };
 
+  // ------------------------
+  // Autoprefix CSS
+  // ------------------------
   const buildAutoprefixCssTask = function () {
-    return src(path.join(conf.distPath, 'assets', 'css', '*.css'))
+    return src([
+        path.join(conf.distPath, 'assets', 'css', '*.css')
+      ], { allowEmpty: true })
       .pipe(gulpIf(conf.sourcemaps, sourcemaps.init({ loadMaps: true })))
       .pipe(autoprefixer())
       .pipe(gulpIf(conf.sourcemaps, sourcemaps.write()))
@@ -65,7 +70,7 @@ module.exports = (conf, srcGlob) => {
     { name: 'boxicons', path: 'node_modules/boxicons/fonts/*' }
   ].map(font => {
     const taskFn = function () {
-      return src(font.path)
+      return src([font.path], { allowEmpty: true })
         .pipe(dest(path.join(conf.distPath, 'assets', 'fonts', font.name)));
     };
     Object.defineProperty(taskFn, 'name', { value: `buildFonts${font.name}` });
@@ -78,12 +83,12 @@ module.exports = (conf, srcGlob) => {
   // Copy other assets
   // ------------------------
   const buildCopyTask = function () {
-    return src(srcGlob([
-      '**/*.png', '**/*.gif', '**/*.jpg', '**/*.jpeg',
-      '**/*.svg', '**/*.swf', '**/*.eot', '**/*.ttf',
-      '**/*.woff', '**/*.woff2'
-    ]))
-    .pipe(dest(path.join(conf.distPath, 'assets')));
+    return src([
+        '**/*.png', '**/*.gif', '**/*.jpg', '**/*.jpeg',
+        '**/*.svg', '**/*.swf', '**/*.eot', '**/*.ttf',
+        '**/*.woff', '**/*.woff2'
+      ], { allowEmpty: true })
+      .pipe(dest(path.join(conf.distPath, 'assets')));
   };
 
   // ------------------------
@@ -91,9 +96,9 @@ module.exports = (conf, srcGlob) => {
   // ------------------------
   const buildHtmlTask = function () {
     return src([
-      path.join(conf.buildTemplatePath, '*.html'), // template HTML
-      'index.html' // root index.html
-    ], { allowEmpty: true })
+        path.join(conf.buildTemplatePath, '*.html'), // template HTML
+        'index.html' // root index.html
+      ], { allowEmpty: true })
       .pipe(dest(conf.distPath));
   };
 
