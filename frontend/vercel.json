@@ -1,15 +1,9 @@
 {
   "version": 2,
   "routes": [
-<<<<<<< HEAD
     { "src": "/assets/(.*)", "dest": "public/assets/$1" }
   ],
   "build": {
     "distDir": "public"
   }
-=======
-    { "src": "/assets/(.*)", "dest": "/assets/$1" },
-    { "src": "/(.*)", "dest": "/index.html" }
-  ]
->>>>>>> 4f3bf38b6f6757706193e57d70a57c902e018847
 }
