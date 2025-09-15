@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en" class="light-style layout-menu-fixed" dir="ltr" data-theme="theme-default" data-assets-path="../assets/" data-template="vertical-menu-template-free">
+<head>
+  <meta charset="utf-8" />
+  <title>Upload Certificates | Fake Degree Recognition System</title>
+  <link rel="stylesheet" href="../assets/vendor/css/core.css" />
+  <link rel="stylesheet" href="../assets/vendor/css/theme-default.css" />
+  <link rel="stylesheet" href="../assets/css/demo.css" />
+  <link rel="stylesheet" href="../assets/vendor/fonts/boxicons.css" />
+  <script src="../assets/vendor/js/helpers.js"></script>
+  <script src="../assets/js/config.js"></script>
+</head>
+<body>
+  <div class="layout-wrapper layout-content-navbar">
+    <div class="layout-container">
+      <!-- Sidebar -->
+      <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
+        <div class="app-brand demo">
+          <a href="instructor-dashboard.html" class="app-brand-link">
+            <span class="app-brand-logo demo"><!-- SVG logo --></span>
+            <span class="app-brand-text demo menu-text fw-bolder ms-2">CrediBull</span>
+          </a>
+          <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto d-block d-xl-none">
+            <i class="bx bx-chevron-left bx-sm align-middle"></i>
+          </a>
+        </div>
+        <div class="menu-inner-shadow"></div>
+        <ul class="menu-inner py-1">
+          <li class="menu-item">
+            <a href="instructor-dashboard.html" class="menu-link">
+              <i class="menu-icon tf-icons bx bx-home-circle"></i>
+              <div>Dashboard</div>
+            </a>
+          </li>
+          <li class="menu-item active">
+            <a href="upload-certificates.html" class="menu-link">
+              <i class="menu-icon tf-icons bx bx-upload"></i>
+              <div>Upload Certificates</div>
+            </a>
+          </li>
+          <li class="menu-item">
+            <a href="instructor-alerts.html" class="menu-link">
+              <i class="menu-icon tf-icons bx bx-bell"></i>
+              <div>Alerts</div>
+            </a>
+          </li>
+          <li class="menu-item">
+            <a href="instructor-profile.html" class="menu-link">
+              <i class="menu-icon tf-icons bx bx-user"></i>
+              <div>Profile</div>
+            </a>
+          </li>
+        </ul>
+      </aside>
+      <!-- / Sidebar -->
+
+      <div class="layout-page">
+        <!-- Navbar -->
+        <nav class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme" id="layout-navbar">
+          <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
+            <ul class="navbar-nav flex-row align-items-center ms-auto">
+              <li class="nav-item navbar-dropdown dropdown-user dropdown">
+                <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
+                  <div class="avatar avatar-online">
+                    <img src="../assets/img/avatars/1.png" alt class="w-px-40 h-auto rounded-circle"/>
+                  </div>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end">
+                  <li><a class="dropdown-item" href="instructor-profile.html"><i class="bx bx-user me-2"></i> My Profile</a></li>
+                  <li><a class="dropdown-item" href="auth-login-basic.html"><i class="bx bx-power-off me-2"></i> Log Out</a></li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+        </nav>
+        <!-- / Navbar -->
+
+        <div class="content-wrapper container-xxl flex-grow-1 container-p-y">
+          <h4 class="py-2">Upload New Certificate</h4>
+
+          <div class="card mb-4">
+            <div class="card-body">
+              <form>
+                <div class="mb-3">
+                  <label for="cert-id" class="form-label">Certificate ID</label>
+                  <input type="text" class="form-control" id="cert-id" placeholder="Enter Certificate ID" />
+                </div>
+                <div class="mb-3">
+                  <label for="student-name" class="form-label">Student Name</label>
+                  <input type="text" class="form-control" id="student-name" placeholder="Enter Student Name" />
+                </div>
+                <div class="mb-3">
+                  <label for="issue-date" class="form-label">Issue Date</label>
+                  <input type="date" class="form-control" id="issue-date" />
+                </div>
+                <div class="mb-3">
+                  <label for="upload-file" class="form-label">Upload PDF</label>
+                  <input class="form-control" type="file" id="upload-file" accept="application/pdf" />
+                </div>
+                <button type="submit" class="btn btn-primary">Upload Certificate</button>
+              </form>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="../assets/vendor/js/bootstrap.js"></script>
+  <script src="../assets/vendor/js/menu.js"></script>
+</body>
+</html>
