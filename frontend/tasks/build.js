@@ -12,15 +12,28 @@ module.exports = (conf, srcGlob) => {
   // Build CSS
   // ------------------------
   const buildCssTask = function () {
-    return src(srcGlob(['/**/*.scss', '!/**/_*.scss']))
-      .pipe(gulpIf(conf.sourcemaps, sourcemaps.init()))
-      .pipe(
-        sass({ outputStyle: conf.minify ? 'compressed' : 'expanded' }).on('error', sass.logError)
-      )
-      .pipe(gulpIf(conf.sourcemaps, sourcemaps.write()))
-      .pipe(dest(path.join(conf.distPath, 'assets', 'css')))
-      .pipe(browserSync.stream());
-  };
+  return src(srcGlob([
+    '**/*.scss',      // include all SCSS
+    '!**/_*.scss',    // exclude partials
+    '!html/**/*',
+    '!html-starter/**/*',
+    '!html-demo/**/*',
+    '!dist/**/*',
+    '!build/**/*',
+    '!assets/**/*',
+    '!tasks/**/*',
+    '!node_modules/**/*',
+    '!_temp/**/*',
+    '!node-script/**/*'
+  ]))
+  .pipe(gulpIf(conf.sourcemaps, sourcemaps.init()))
+  .pipe(
+    sass({ outputStyle: conf.minify ? 'compressed' : 'expanded' }).on('error', sass.logError)
+  )
+  .pipe(gulpIf(conf.sourcemaps, sourcemaps.write()))
+  .pipe(dest(path.join(conf.distPath, 'assets', 'css')))
+  .pipe(browserSync.stream());
+};
 
   const buildAutoprefixCssTask = function () {
     return src(path.join(conf.distPath, 'assets', 'css', '*.css'))
