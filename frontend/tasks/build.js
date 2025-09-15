@@ -83,10 +83,10 @@ module.exports = (conf) => {
   // Copy other assets
   // ------------------------
   const buildCopyTask = function () {
+    // Copy the entire assets directory preserving folder structure
     return src([
-        '**/*.png', '**/*.gif', '**/*.jpg', '**/*.jpeg',
-        '**/*.svg', '**/*.swf', '**/*.eot', '**/*.ttf',
-        '**/*.woff', '**/*.woff2'
+        'assets/**',
+        '!assets/**/*.scss'
       ], { allowEmpty: true })
       .pipe(dest(path.join(conf.distPath, 'assets')));
   };
