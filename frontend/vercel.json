@@ -1,11 +1,8 @@
 {
   "version": 2,
   "buildCommand": "npm run build:prod",
+  "installCommand": "npm install",
   "builds": [
     { "src": "package.json", "use": "@vercel/static-build", "config": { "distDir": "public" } }
-  ],
-  "routes": [
-    { "src": "/assets/(.*)", "dest": "/assets/$1" },
-    { "src": "/(.*)", "dest": "/index.html" }
   ]
 }
