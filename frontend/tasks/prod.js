@@ -17,12 +17,17 @@ module.exports = conf => {
   // -------------------------------------------------------------------------------
   const prodRenameTasks = function () {
     return src(`${buildPath}/*.html`)
-      .pipe(replace('../../assets', 'assets'))
-      .pipe(replace('../assets', 'assets'))
+      // Normalize relative to absolute root-based asset paths
+      .pipe(replace('../../assets', '/assets'))
+      .pipe(replace('../assets', '/assets'))
+      .pipe(replace('="assets/', '="/assets/'))
+      .pipe(replace("='assets/", "='/assets/"))
+      .pipe(replace('data-assets-path="assets/', 'data-assets-path="/assets/'))
       .pipe(dest(buildPath))
       .pipe(src(`${buildPath}/assets/**/*`))
-      .pipe(replace('../../assets', 'assets'))
-      .pipe(replace('../assets', 'assets'))
+      // In asset files (like CSS) normalize any relative references too
+      .pipe(replace('../../assets', '/assets'))
+      .pipe(replace('../assets', '/assets'))
       .pipe(dest(`${buildPath}/assets/`));
   };
 
