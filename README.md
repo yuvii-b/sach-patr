@@ -2,7 +2,7 @@
 
 ![CrediBull Logo](https://img.shields.io/badge/CrediBull-Academic%20Certificate%20Authenticator-blue?style=for-the-badge)
 
-A comprehensive solution for authenticating academic certificates using advanced layout recognition, format handling, and smart analytics. Built for **Smart India Hackathon 2024** (Problem Statement: SIH25029).
+A comprehensive solution for authenticating academic certificates using advanced layout recognition, format handling, and smart analytics. Built for **Smart India Hackathon 2025** (Problem Statement: SIH25029).
 
 ##  Problem Statement
 
@@ -143,11 +143,7 @@ The project is configured for deployment on Vercel with the included `vercel.jso
 
 ##  Team
 
-This project was developed as part of the Smart India Hackathon 2024.
-
-##  License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project was developed as part of the Smart India Hackathon 2025.
 
 ##  Support
 
