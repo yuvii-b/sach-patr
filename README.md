@@ -163,4 +163,4 @@ For support and questions:
 
 ---
 
-**Built with ❤️ for Smart India Hackathon 2024**
+**Built with ❤️ for Smart India Hackathon 2025**
