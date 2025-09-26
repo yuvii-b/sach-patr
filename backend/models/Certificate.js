@@ -2,7 +2,7 @@ const mongoose=require('mongoose');
 const Schema=mongoose.Schema;
 
 certificateSchema=new Schema({
-    name:{
+    issuedTo:{
         type:String,
         max:100,
         min:1
@@ -12,7 +12,7 @@ certificateSchema=new Schema({
         max:100,
         min:1
     },
-    institute:{
+    issuedBy:{
         type:String,
         max:200,
         min:1

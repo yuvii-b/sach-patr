@@ -2,7 +2,8 @@ const express=require('express');
 const mongoose=require('mongoose');
 const errorHandler=require('./utilities/errorHandler');
 const expressError=require('./utilities/customError');
-const certificateModel=require('./models/certificate');
+const certificateModel=require('./models/Certificate');
+const uploadModel=require('./models/uploads');
 
 mongoose.connect('mongodb://localhost:27017/CrediBull', {
   useNewUrlParser: true,
@@ -38,6 +39,55 @@ app.get('/test',errorHandler(async(req,res)=>{
             output:null
         })
     }
+}))
+
+//returning the uploaded certificates for each institute
+app.get('/api/certificates/institute/:instituteName',errorHandler(async(req,res)=>{
+  const {instituteName}=req.params;
+  
+  const uploads=await uploadModel.find({issuedBy:instituteName});
+  res.json({
+    length:uploads.length,
+    uploadedCertificates:uploads
+  })
+
+}))
+
+
+//to return the stats for each institute
+app.get('/api/certificates/institute/:instituteName/stats',errorHandler(async (req,res)=>{
+  const {instituteName}=req.params;
+  const stats = await uploadModel.aggregate([
+  { $match: { issuedBy: instituteName } },
+  {
+    $group: {
+      _id: "$issuedBy",
+      totalCertificates: { $sum: 1 },
+      verified: { $sum: { $cond: [{ $eq: ["$flag", "pass"] }, 1, 0] } },
+      fakeDetected: { $sum: { $cond: [{ $eq: ["$flag", "fail"] }, 1, 0] } },
+      suspicious: { $sum: { $cond: [{ $eq: ["$flag", "suspicious"] }, 1, 0] } }
+    }
+  }]);
+
+  res.json(stats);
+
+}))
+
+//to get the overall stats for the HED dashboard
+app.get('/api/stats',errorHandler(async(req,res)=>{
+ const stats = await uploadModel.aggregate([
+  {
+    $group: {
+      _id: null,
+      totalCertificates: { $sum: 1 },
+      verified: { $sum: { $cond: [{ $eq: ["$flag", "pass"] }, 1, 0] } },
+      fakeDetected: { $sum: { $cond: [{ $eq: ["$flag", "fail"] }, 1, 0] } },
+      suspicious: { $sum: { $cond: [{ $eq: ["$flag", "suspicious"] }, 1, 0] } }
+    }
+  },
+  { $project: { _id: 0 } }
+]);
+  res.json(stats);
 }))
 
 app.get('/institute/upload',errorHandler(async (req,res)=>{

@@ -1,6 +1,6 @@
 const mongoose=require('mongoose');
-const certificateModel=require('../models/certificate');
-const data=require('./data');
+const uploadModel=require('../models/uploads');
+const data=require('./uploadData');
 
 mongoose.connect('mongodb://localhost:27017/CrediBull', {
   useNewUrlParser: true,
@@ -15,8 +15,8 @@ mongoose.connect('mongodb://localhost:27017/CrediBull', {
 
 async function manageSeeds(){
     try{
-        await certificateModel.deleteMany({});
-        const insertedDocs=await certificateModel.insertMany(data);
+        await uploadModel.deleteMany({});
+        const insertedDocs=await uploadModel.insertMany(data);
         console.log(insertedDocs);
     }catch(e){
         console.log(e);
