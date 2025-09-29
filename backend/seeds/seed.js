@@ -1,5 +1,5 @@
 const mongoose=require('mongoose');
-const certificateModel=require('../models/certificate');
+const certificateModel=require('../models/Certificate');
 const data=require('./data');
 
 mongoose.connect('mongodb://localhost:27017/CrediBull', {
