@@ -4,55 +4,50 @@ const expressError=require('../utilities/customError');
 const router = express.Router();
 const certificateModel=require('../models/Certificate');
 const uploadModel=require('../models/uploads');
-const {authInstitute}=require('../middlewares');
+const {authInstitute,isLoggedIn}=require('../middlewares');
 
 
-router.get('/institute/update',authInstitute,errorHandler(async (req,res)=>{
-    //mock data expected from OCR
-    const input = [
+//used by institutional login to upload data in bulk in certificate schema
+router.get('/institute/update',isLoggedIn,authInstitute,errorHandler(async (req,res)=>{
+
+  //expected from the ocr
+const input = [
   {
-    issuedTo: "Aarav Sharma",
+    issuedTo: "Arjun Kumar",
     course: "B.Tech Computer Science",
-    issuedBy: "Indian Institute of Technology, Bombay",
-    certificateId: "IITB-CSE-2025-001",
-    issueDate: new Date("2025-06-15")
+    certificateId: "CERT-SIIT-001",
+    issueDate: new Date("2023-06-15"),
   },
   {
-    issuedTo: "Priya Ramesh",
-    course: "MBA in Finance",
-    issuedBy: "Indian Institute of Management, Ahmedabad",
-    certificateId: "IIMA-MBA-2025-002",
-    issueDate: new Date("2025-03-20")
+    issuedTo: "Priya Sharma",
+    course: "B.Tech Information Technology",
+    certificateId: "CERT-SIIT-002",
+    issueDate: new Date("2023-07-10"),
   },
   {
-    issuedTo: "Rahul Verma",
-    course: "B.Sc Physics",
-    issuedBy: "University of Delhi",
-    certificateId: "DU-PHY-2025-003",
-    issueDate: new Date("2025-07-01")
+    issuedTo: "Ravi Patel",
+    course: "B.Tech Electronics and Communication",
+    certificateId: "CERT-SIIT-003",
+    issueDate: new Date("2023-08-05"),
   },
   {
-    issuedTo: "Meena Krishnan",
+    issuedTo: "Sneha Nair",
+    course: "MBA Business Analytics",
+    certificateId: "CERT-SIIT-004",
+    issueDate: new Date("2023-09-20"),
+  },
+  {
+    issuedTo: "Vikram Reddy",
     course: "M.Tech Artificial Intelligence",
-    issuedBy: "Anna University, Chennai",
-    certificateId: "AU-AI-2025-004",
-    issueDate: new Date("2025-08-10")
-  },
-  {
-    issuedTo: "Vikram Patel",
-    course: "B.Com Accounting",
-    issuedBy: "University of Mumbai",
-    certificateId: "MU-COM-2025-005",
-    issueDate: new Date("2025-05-25")
-  },
-  {
-    issuedTo: "Sneha Iyer",
-    course: "M.Sc Data Science",
-    issuedBy: "Indian Statistical Institute, Kolkata",
-    certificateId: "ISI-DS-2025-006",
-    issueDate: new Date("2025-04-05")
+    certificateId: "CERT-SIIT-005",
+    issueDate: new Date("2023-10-12"),
   }
 ];
+
+for(var i=0;i<input.length;i++){
+  input[i]["issuedTo"]=req.user;
+}
+
 
   const insertedDocs=await certificateModel.insertMany(input,{ordered:false});
   if(insertedDocs.length==input.length){
@@ -69,6 +64,8 @@ router.get('/institute/update',authInstitute,errorHandler(async (req,res)=>{
     })
   }
 }))
+
+
 
 module.exports=router;
 

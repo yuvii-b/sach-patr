@@ -1,9 +1,17 @@
 const express=require('express');
 const mongoose=require('mongoose');
+const session=require('express-session');
+const passport=require('passport');
+const LocalStratergy=require('passport-local');
 const errorHandler=require('./utilities/errorHandler');
 const expressError=require('./utilities/customError');
 const certificateModel=require('./models/Certificate');
 const uploadModel=require('./models/uploads');
+const User=require('./models/user');
+const uploadRoutes=require('./routes/uploadRoutes');
+const certificatesRoutes=require('./routes/certificatesRoutes');
+const userRoutes=require('./routes/users');
+
 
 mongoose.connect('mongodb://localhost:27017/CrediBull', {
   useNewUrlParser: true,
@@ -18,6 +26,31 @@ mongoose.connect('mongodb://localhost:27017/CrediBull', {
 
 const app=express();
 
+const sessionconfig = {
+  secret: 'helloworldthisisthebest',
+  saveUninitialized: true,
+  resave: false,
+  cookie: {
+   //httpOnly is not working rather use this
+   httpOnly: true,
+    secure:false,
+    maxAge: 1000 * 60 * 60 * 24 * 7 
+  }
+};
+app.use(express.urlencoded({ extended: true }));
+app.use(express.static('public'));
+app.use(session(sessionconfig));
+app.use(passport.initialize());
+app.use(passport.session());
+
+passport.use(new LocalStratergy(User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
+app.use('/',uploadRoutes);
+app.use('/',certificatesRoutes);
+app.use('/',userRoutes);
+
 app.get('/',(req,res)=>{
     res.send('home');
 })
@@ -25,7 +58,13 @@ app.get('/',(req,res)=>{
 //route to check if the ocr details are present in the database
 app.get('/test',errorHandler(async(req,res)=>{
     //mock data expected to recieve from OCR
-    const input={name:"meera iyer",course:"ma english literature",institute:"madras institute of techonology"};
+    const input= {
+    issuedTo: "Arun K",
+    course: "Artificial Intelligence Basics",
+    issuedBy: "PSG College of Technology",
+    certificateId: "CERT-008",
+    issueDate: new Date("2025-07-22")
+  }
     const output=await certificateModel.find(input);
     if(output.length!==0){
         res.json({
@@ -41,37 +80,13 @@ app.get('/test',errorHandler(async(req,res)=>{
     }
 }))
 
-//returning the uploaded certificates for each institute
-app.get('/api/certificates/institute/:instituteName',errorHandler(async(req,res)=>{
-  const {instituteName}=req.params;
-  
-  const uploads=await uploadModel.find({issuedBy:instituteName});
-  res.json({
-    length:uploads.length,
-    uploadedCertificates:uploads
-  })
 
-}))
+
+
 
 
 //to return the stats for each institute
-app.get('/api/certificates/institute/:instituteName/stats',errorHandler(async (req,res)=>{
-  const {instituteName}=req.params;
-  const stats = await uploadModel.aggregate([
-  { $match: { issuedBy: instituteName } },
-  {
-    $group: {
-      _id: "$issuedBy",
-      totalCertificates: { $sum: 1 },
-      verified: { $sum: { $cond: [{ $eq: ["$flag", "pass"] }, 1, 0] } },
-      fakeDetected: { $sum: { $cond: [{ $eq: ["$flag", "fail"] }, 1, 0] } },
-      suspicious: { $sum: { $cond: [{ $eq: ["$flag", "suspicious"] }, 1, 0] } }
-    }
-  }]);
 
-  res.json(stats);
-
-}))
 
 //to get the overall stats for the HED dashboard
 app.get('/api/stats',errorHandler(async(req,res)=>{
@@ -90,52 +105,7 @@ app.get('/api/stats',errorHandler(async(req,res)=>{
   res.json(stats);
 }))
 
-app.get('/institute/upload',errorHandler(async (req,res)=>{
-    //mock data expected from OCR
-    const input =[{
-    name: "aarav sharma",
-    course: "btech computer science",
-    issueDate: new Date("2023-07-15"),
-    certificateId: "cert20230001",
-    institute: "indian institute of technology delhi"
-  },
-  {
-    name: "isha patel",
-    course: "mba finance",
-    issueDate: new Date("2022-11-20"),
-    certificateId: "cert20220002",
-    institute: "indian institute of management ahmedabad"
-  },
-  {
-    name: "rohan verma",
-    course: "msc data science",
-    issueDate: new Date("2023-01-10"),
-    certificateId: "cert20230003",
-    institute: "indian statistical institute kolkata"
-  },
-  {
-    name: "priya nair",
-    course: "bcom accounting",
-    issueDate: new Date("2021-08-05"),
-    certificateId: "cert20210004",
-    institute: "st xaviers college mumbai"
-  }]
 
-  const insertedDocs=await certificateModel.insertMany(input,{ordered:false});
-  if(insertedDocs.length==input.length){
-    res.json({
-        success:'yes',
-        insertedCount:insertedDocs.length,
-        insertedData:insertedDocs
-    })
-  }else{
-    res.json({
-        success:'no',
-        insertedCount:insertedDocs.length,
-        insertedData:insertedDocs
-    })
-  }
-}))
 
 //to check the contents of the database 
 app.get('/display',errorHandler(async(req,res)=>{

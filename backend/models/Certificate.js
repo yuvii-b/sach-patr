@@ -1,4 +1,5 @@
 const mongoose=require('mongoose');
+const User=require('./user');
 const Schema=mongoose.Schema;
 
 certificateSchema=new Schema({
@@ -13,9 +14,8 @@ certificateSchema=new Schema({
         min:1
     },
     issuedBy:{
-        type:String,
-        max:200,
-        min:1
+        type:mongoose.Types.ObjectId,
+        ref:User
     },
     certificateId:{
         type:String,

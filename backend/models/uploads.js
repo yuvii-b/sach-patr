@@ -1,4 +1,5 @@
 const mongoose=require('mongoose');
+const User=require('./user');
 const Schema=mongoose.Schema;
 
 uploadSchema=new Schema({
@@ -10,6 +11,10 @@ uploadSchema=new Schema({
     issuedBy:{
         type:String,
         min:0
+    },
+    issuedTo:{
+        type:mongoose.Types.ObjectId,
+        ref:User
     },
     issuedDate:{
         type:Date
