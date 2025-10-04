@@ -3,19 +3,20 @@ import easyocr, re, spacy, cv2, numpy as np
 import faiss, pickle, os
 import matplotlib.pyplot as plt
 from skimage import color
+import time
 
 model = SentenceTransformer('all-MiniLM-L6-v2')
 reader = easyocr.Reader(['en'])
 nlp = spacy.load("en_core_web_sm")
 
 text_dim = model.get_sentence_embedding_dimension()
-color_bins = (32,32,32)
+color_bins = (16,16,16)
 color_dim = np.prod(color_bins)
 total_dim = int(text_dim + color_dim)
 
 faiss_index_file = "cert_index.faiss"
 id_map_file = "cert_id_map.pkl"
-
+time_start = time.time()
 if os.path.exists(faiss_index_file):
     index = faiss.read_index(faiss_index_file)
 else:
@@ -208,10 +209,24 @@ def deltaE_heatmap(img1_path, img2_path, output_path="deltaE_heatmap.png", resiz
     return noticeable_fraction, output_path
 
 image_path = "trial color mismatch.png"
+time_start_total = time.time()
+t0 = time.time()
 extracted_text = extract_text(image_path)
+t_text = time.time() - t0
+print(f"Text extraction time: {t_text:.3f} seconds")
+
+# --- DB Fields ---
 regex_fields = extract_fields_regex(extracted_text)
 ner_fields = extract_fields_ner(extracted_text)
 db_fields_text = combine_db_fields(regex_fields, ner_fields)
 non_db_text = extract_non_db_text(extracted_text, db_fields_text)
-cert_id = "CERT-001"
+cert_id="CERT-001"
+# --- Embedding / Comparison Timer ---
+t0 = time.time()
+
 embed_certificate(image_path, non_db_text, db_fields_text, cert_id)
+t_embed = time.time() - t0
+print(f"Embedding/comparison time: {t_embed:.3f} seconds")
+# --- Total Timer ---
+t_total = time.time() - time_start_total
+print(f"Total time: {t_total:.3f} seconds")
