@@ -1,2 +1,2 @@
-fonts/* linguist-vendored
-scss/* linguist-vendored
+fonts/* linguist-detectable=false
+scss/* linguist-detectable=false
