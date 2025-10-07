@@ -208,7 +208,7 @@ def deltaE_heatmap(img1_path, img2_path, output_path="deltaE_heatmap.png", resiz
     plt.close()
     return noticeable_fraction, output_path
 
-image_path = "trial color mismatch.png"
+image_path = "data mismatch.png"
 time_start_total = time.time()
 t0 = time.time()
 extracted_text = extract_text(image_path)

@@ -744,7 +744,7 @@
             formData.append('filename', file.name);
             formData.append('certificate_id', 'CERT-USER');
 
-            const res = await fetch('http://localhost:8000/api/verify', { method: 'POST', body: formData });
+            const res = await fetch('/api/verify', { method: 'POST', body: formData });
             if (!res.ok) throw new Error('Verification failed');
             const data = await res.json();
 
@@ -756,7 +756,7 @@
             document.getElementById('detail-event').textContent = data.regex_fields.event;
             document.getElementById('detail-issuer').textContent = data.regex_fields.issuer;
             document.getElementById('detail-date').textContent = data.regex_fields.date;
-            if (data.heatmap_path) { heatmapImg.src = `http://localhost:8000/heatmap/${data.heatmap_path}`; heatmapImg.classList.remove('d-none'); }
+            if (data.heatmap_path) { heatmapImg.src = `/api/heatmap/${data.heatmap_path}`; heatmapImg.classList.remove('d-none'); }
             finalScoreChart.updateSeries([data.similarities.combined_similarity * 100]);
 
             try {
@@ -805,7 +805,7 @@
           formData.append("certificate_id", "CERT-SAMPLE");
 
           try {
-            const res = await fetch("http://localhost:8000/api/verify", {
+          const res = await fetch("/api/verify", {
               method: "POST",
               body: formData
             });
@@ -826,7 +826,7 @@
             document.getElementById("detail-date").textContent = data.regex_fields.date;
 
             if (data.heatmap_path) {
-              heatmapImg.src = `http://localhost:8000/heatmap/${data.heatmap_path}`;
+              heatmapImg.src = `/api/heatmap/${data.heatmap_path}`;
               heatmapImg.classList.remove("d-none");
             }
 
