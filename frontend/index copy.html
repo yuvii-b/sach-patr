@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>SachPatr - Academic Certificate Authenticator</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body, nav, .logo, .nav-right, .btn {
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background: #f5f6fa;
+            color: #1a1a1a;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        nav {
+            padding: 24px 0;
+            background: white;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: 700;
+            color: #4F46E5;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo img {
+            height: 160px;
+            width: auto;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 16px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-weight: 500;
+            text-decoration: none;
+            cursor: pointer;
+            border: none;
+            font-size: 14px;
+            transition: all 0.2s ease;
+        }
+
+        .btn-demo {
+            background: transparent;
+            color: #1a1a1a;
+        }
+
+        .btn-demo:hover {
+            text-decoration: underline;
+        }
+
+        .btn-ghost {
+            color: #6b7280;
+            background: transparent;
+            border: 1px solid #e5e7eb;
+        }
+
+        .btn-ghost:hover {
+            color: #1a1a1a;
+            border-color: #d1d5db;
+        }
+
+        .btn-primary {
+            background: #4F46E5;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #4338CA;
+        }
+
+        .hero {
+            padding: 140px 0 80px;
+            text-align: center;
+            background: linear-gradient(135deg, #f0f4ff, #ffffff);
+        }
+
+        .problem-statement {
+            background: #4F46E5;
+            padding: 8px 16px;
+            border-radius: 20px;
+            display: inline-block;
+            margin-bottom: 24px;
+            color: white;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .hero-title {
+            font-size: clamp(48px, 6vw, 72px);
+            font-weight: 800;
+            color: #1a1a1a;
+            margin-bottom: 16px;
+            line-height: 1.1;
+        }
+
+        .hero-title .highlight {
+            color: #4F46E5;
+        }
+
+        .hero-subtitle {
+            font-size: 20px;
+            color: #6b7280;
+            margin-bottom: 40px;
+            font-weight: 500;
+        }
+
+        hr {
+            border: none;
+            height: 1px;
+            background-color: #ddd;
+            margin: 40px 0;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+            margin-bottom: 60px;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 24px;
+            border-radius: 12px;
+            text-align: left;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+        }
+
+        .feature-icon {
+            width: 24px;
+            height: 24px;
+            background-image: url('https://mnt.data/287801ed-fb93-42f8-ac3e-943da3278a48.png');
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+
+        .feature-text {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .feature-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-bottom: 4px;
+        }
+
+        .feature-description {
+            font-size: 14px;
+            color: #6b7280;
+        }
+
+        .cta-section {
+            text-align: center;
+            padding: 100px 0;
+            background: #f8f9ff;
+            margin-top: 80px;
+        }
+
+        .cta-title {
+            font-size: 32px;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 16px;
+        }
+
+        .cta-subtitle {
+            font-size: 18px;
+            color: #6b7280;
+            margin-bottom: 32px;
+        }
+
+        .cta-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .btn-large {
+            padding: 14px 28px;
+            font-size: 16px;
+        }
+
+        .btn-secondary {
+            background: white;
+            color: #4F46E5;
+            border: 1px solid #4F46E5;
+        }
+
+        .btn-secondary:hover {
+            background: #4F46E5;
+            color: white;
+        }
+
+        @media (max-width: 768px) {
+            .nav-container {
+                flex-direction: column;
+                gap: 16px;
+            }
+
+            .features {
+                grid-template-columns: 1fr;
+                gap: 16px;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .btn-large {
+                width: 100%;
+                max-width: 280px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav>
+        <div class="container">
+            <div class="nav-container">
+                <div class="logo">
+                    <span class="app-brand-text demo text-body fw-bolder">SachPatr</span>
+                </div>
+                <div class="nav-right">
+                    <div class="nav-buttons">
+<a class="btn btn-demo" href="institute-dashboard.html">Institute Demo</a>
+<a class="btn btn-demo" href="user-index.html">User Demo</a>
+<a class="btn btn-demo" href="hed-index.html">HED Demo</a>
+<button class="btn btn-ghost" onclick="location.href='auth-login-basic.html'">Log in</button>
+<button class="btn btn-primary" onclick="location.href='auth-register-basic.html'">Sign up</button>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="container">
+            <div class="problem-statement">SIH Problem Statement SIH25029</div>
+            <h1 class="hero-title">
+                Authenticator <span class="highlight">for</span><br>
+                Academic Certificates
+            </h1>
+            <p class="hero-subtitle">Verification made easy and secure</p>
+        </div>
+    </section>
+
+    <section class="container features">
+        <div class="feature-card">
+            <div class="feature-icon"></div>
+            <div class="feature-text">
+                <div class="feature-title">Auto Layout Recognition</div>
+                <div class="feature-description">Automatically detect and process layouts without manual effort.</div>
+            </div>
+        </div>
+
+        <div class="feature-card">
+            <div class="feature-icon"></div>
+            <div class="feature-text">
+                <div class="feature-title">Format Handling</div>
+                <div class="feature-description">Supports multiple formats and adapts dynamically without reprogramming.</div>
+            </div>
+        </div>
+
+        <div class="feature-card">
+            <div class="feature-icon"></div>
+            <div class="feature-text">
+                <div class="feature-title">Smart Analytics</div>
+                <div class="feature-description">Detect trends and suspicious patterns automatically with ML-powered insights.</div>
+            </div>
+        </div>
+    </section>
+
+</body>
+
+</html>

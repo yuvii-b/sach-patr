@@ -22,6 +22,10 @@
 
   <script src="../assets/vendor/js/helpers.js"></script>
   <script src="../assets/js/config.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=UnifrakturCook:wght@700&family=Playfair+Display:wght@700&family=Yeseva+One&display=swap" rel="stylesheet" />
+  <style>
+    .logo-text { font-family: 'UnifrakturCook', 'Playfair Display', 'Yeseva One', serif; font-weight:700; letter-spacing:1px; text-transform:none; font-size:28px; color:#0f172a; line-height:1; white-space:nowrap; }
+  </style>
 </head>
 
 <body>
@@ -30,9 +34,7 @@
                 <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
           <div class="app-brand demo">
             <a href="hed-index.html" class="app-brand-link">
-              <span class="app-brand-logo demo">
-                <img src="../assets/img/avatars/app-logo.png" alt="CrediBull Logo" style="height: 160px; width: auto;">
-              </span>
+              <span class="logo-text">Sachpatr</span>
             </a>
 
             <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto d-block d-xl-none">
@@ -96,11 +98,7 @@
             <div class="card">
               <h5 class="card-header">Recent Alerts</h5>
               <div class="card-body">
-                <ul class="list-group">
-                  <li class="list-group-item list-group-item-danger">Forgery Alert: CERT20250901XYZ</li>
-                  <li class="list-group-item list-group-item-warning">Duplicate Cert: CERTABC789</li>
-                  <li class="list-group-item list-group-item-info">Institution XYZ failed to upload batch</li>
-                </ul>
+                <ul id="hed-alerts" class="list-group"></ul>
               </div>
             </div>
 
@@ -120,6 +118,29 @@
     <div class="layout-overlay layout-menu-toggle"></div>
   </div>
 
+  <script>
+    function getLocalUploads() {
+      try { const raw = localStorage.getItem('userCertificates'); return raw ? JSON.parse(raw) : []; } catch(_) { return []; }
+    }
+    function renderHedAlerts() {
+      const el = document.getElementById('hed-alerts'); if (!el) return;
+      const list = getLocalUploads();
+      const items = [];
+      list.slice(0, 20).forEach(item => {
+        const c = item.scores?.combined ?? 0;
+        if (c < 60) items.push(`<li class="list-group-item list-group-item-danger">Forgery Alert: ${item.certificateId || item.fileName}</li>`);
+        else if (c < 80) items.push(`<li class="list-group-item list-group-item-warning">Review Needed: ${item.certificateId || item.fileName}</li>`);
+      });
+      el.innerHTML = items.join('') || '<li class="list-group-item text-muted">No alerts yet</li>';
+    }
+    document.addEventListener('DOMContentLoaded', () => {
+      renderHedAlerts();
+      window.addEventListener('storage', (e) => { if (!e || e.key === null || e.key === 'userCertificates') renderHedAlerts(); });
+      window.addEventListener('focus', renderHedAlerts);
+      document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') renderHedAlerts(); });
+      setInterval(renderHedAlerts, 2000);
+    });
+  </script>
   <script src="assets/vendor/js/bootstrap.js"></script>
 </body>
 </html>

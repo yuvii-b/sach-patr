@@ -22,6 +22,10 @@
 
   <script src="../assets/vendor/js/helpers.js"></script>
   <script src="../assets/js/config.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=UnifrakturCook:wght@700&family=Playfair+Display:wght@700&family=Yeseva+One&display=swap" rel="stylesheet" />
+  <style>
+    .logo-text { font-family: 'UnifrakturCook', 'Playfair Display', 'Yeseva One', serif; font-weight:700; letter-spacing:1px; text-transform:none; font-size:28px; color:#0f172a; line-height:1; white-space:nowrap; }
+  </style>
 </head>
 
 <body>
@@ -30,9 +34,7 @@
                 <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
           <div class="app-brand demo">
             <a href="hed-index.html" class="app-brand-link">
-              <span class="app-brand-logo demo">
-                <img src="../assets/img/avatars/app-logo.png" alt="CrediBull Logo" style="height: 160px; width: auto;">
-              </span>
+              <span class="logo-text">Sachpatr</span>
             </a>
 
             <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto d-block d-xl-none">
@@ -97,32 +99,7 @@
                       <th>Action</th>
                     </tr>
                   </thead>
-                  <tbody>
-                    <tr>
-                      <td>1</td>
-                      <td>CERT20250901XYZ</td>
-                      <td>John Doe</td>
-                      <td>2025-09-01</td>
-                      <td>Forged Certificate</td>
-                      <td><button class="btn btn-sm btn-danger">Remove</button></td>
-                    </tr>
-                    <tr>
-                      <td>2</td>
-                      <td>CERTABC789</td>
-                      <td>XYZ Institute</td>
-                      <td>2025-08-28</td>
-                      <td>Duplicate Upload</td>
-                      <td><button class="btn btn-sm btn-danger">Remove</button></td>
-                    </tr>
-                    <tr>
-                      <td>3</td>
-                      <td>CERT12345DEF</td>
-                      <td>Jane Smith</td>
-                      <td>2025-07-15</td>
-                      <td>Invalid Credentials</td>
-                      <td><button class="btn btn-sm btn-danger">Remove</button></td>
-                    </tr>
-                  </tbody>
+                  <tbody id="blacklist-body"></tbody>
                 </table>
               </div>
             </div>
@@ -139,5 +116,30 @@
 
     </div>
   </div>
+  <script>
+    function getLocalUploads() {
+      try { const raw = localStorage.getItem('userCertificates'); return raw ? JSON.parse(raw) : []; } catch(_) { return []; }
+    }
+    function renderBlacklist() {
+      const body = document.getElementById('blacklist-body'); if (!body) return;
+      const bad = getLocalUploads().filter(it => (it.scores?.combined ?? 0) < 60);
+      body.innerHTML = bad.map((it, i) => `
+        <tr>
+          <td>${i+1}</td>
+          <td>${it.certificateId || '-'}</td>
+          <td>${it.fields?.name || it.fields?.issuer || 'N/A'}</td>
+          <td>${(it.uploadDate && new Date(it.uploadDate).toISOString().slice(0,10)) || '-'}</td>
+          <td>Low authenticity score (${it.scores?.combined ?? 0}%)</td>
+          <td><button class="btn btn-sm btn-danger" onclick="this.closest('tr').remove()">Remove</button></td>
+        </tr>`).join('') || '<tr><td colspan="6" class="text-center text-muted">No blacklisted entries</td></tr>';
+    }
+    document.addEventListener('DOMContentLoaded', () => {
+      renderBlacklist();
+      window.addEventListener('storage', (e) => { if (!e || e.key === null || e.key === 'userCertificates') renderBlacklist(); });
+      window.addEventListener('focus', renderBlacklist);
+      document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') renderBlacklist(); });
+      setInterval(renderBlacklist, 2000);
+    });
+  </script>
 </body>
 </html>
